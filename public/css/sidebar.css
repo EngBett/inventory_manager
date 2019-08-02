@@ -16,6 +16,10 @@ body {
   font-size: 1.2rem;
 }
 
+.sidebar-heading{
+  font-weight: 600;
+}
+
 #sidebar-wrapper .list-group {
   width: 15rem;
 }
@@ -41,4 +45,8 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+.pos_qty{
+  max-width: 60px;
 }

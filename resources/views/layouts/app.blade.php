@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('layouts.head')
 </head>
 
@@ -11,8 +12,16 @@
 
     @include('layouts.side')
     <!-- Page Content -->
-    @section('page-content')
-        @show
+
+        <div id="page-content-wrapper">
+
+            @include('layouts.header')
+
+            @section('page-content')
+                @show
+        </div>
+
+
     <!-- /#page-content-wrapper -->
 
 </div>
