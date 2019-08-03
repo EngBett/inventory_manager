@@ -1938,39 +1938,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   data: function data() {
     return {
-      msgtest: "Hello test msg"
+      search: null,
+      inventory: []
     };
   },
   methods: {
-    fetchData: function fetchData() {}
+    fetchData: function fetchData() {
+      var inv = [];
+      axios.post('/item-search', {
+        payload: this.search
+      }).then(function (res) {
+        for (var i = 0; i < res.data.items.length; i++) {
+          inv.push(res.data.items[i]);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      this.inventory = inv;
+    }
   }
 });
 
@@ -37270,215 +37261,222 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-5" }, [
+        _c("div", { staticClass: "input-group input-group-lg" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.search,
+                expression: "search",
+                modifiers: { trim: true }
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              "aria-label": "Large",
+              "aria-describedby": "inputGroup-sizing-sm"
+            },
+            domProps: { value: _vm.search },
+            on: {
+              keyup: _vm.fetchData,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "table-responsive-md mt-2" }, [
+          _c("table", { staticClass: "table" }, [
+            _c("caption", [_vm._v("Items")]),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.inventory, function(item) {
+                return _c("tr", { key: item.id }, [
+                  _c("th", { attrs: { scope: "row" } }, [
+                    _vm._v(_vm._s(item.item_code))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.item_name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.description))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.sell_price) + ".00")]),
+                  _vm._v(" "),
+                  _vm._m(2, true)
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(3)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-5" }, [
-          _c("div", { staticClass: "input-group input-group-lg" }, [
-            _c("div", { staticClass: "input-group-prepend" }, [
-              _c(
-                "span",
-                {
-                  staticClass: "input-group-text",
-                  attrs: { id: "inputGroup-sizing-lg" }
-                },
-                [_vm._v("Search")]
-              )
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        {
+          staticClass: "input-group-text",
+          attrs: { id: "inputGroup-sizing-lg" }
+        },
+        [_vm._v("Search")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Code")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("a", { attrs: { href: "" } }, [
+        _c("i", { staticClass: "fa fa-cart-arrow-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("h1", { staticStyle: { "text-align": "center" } }, [
+        _c("i", { staticClass: "fa fa-shopping-basket" })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "table-responsive-md mt-2" }, [
+        _c("table", { staticClass: "table" }, [
+          _c("caption", [_vm._v("Cart Items")]),
+          _vm._v(" "),
+          _c("thead", [
+            _c("tr", [
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Code")]),
+              _vm._v(" "),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Item")]),
+              _vm._v(" "),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
+              _vm._v(" "),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Qty")]),
+              _vm._v(" "),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Price")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tbody", [
+            _c("tr", [
+              _c("th", { attrs: { scope: "row" } }, [_vm._v("001")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Tissue paper")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Wema 2pcs")]),
+              _vm._v(" "),
+              _c("td", [
+                _c("input", {
+                  staticClass: "pos_qty",
+                  attrs: { type: "number" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("td", [_vm._v("50.00")])
             ]),
             _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                "aria-label": "Large",
-                "aria-describedby": "inputGroup-sizing-sm"
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "table-responsive-md mt-2" }, [
-            _c("table", { staticClass: "table" }, [
-              _c("caption", [_vm._v("Items")]),
+            _c("tr", [
+              _c("th", { attrs: { scope: "row" } }, [_vm._v("002")]),
               _vm._v(" "),
-              _c("thead", [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Code")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Item")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [
-                    _vm._v("Description")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Price")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } })
-                ])
+              _c("td", [_vm._v("Colgate")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Herbal 100ml")]),
+              _vm._v(" "),
+              _c("td", [
+                _c("input", {
+                  staticClass: "pos_qty",
+                  attrs: { type: "number" }
+                })
               ]),
               _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("001")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Tissue paper")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Wema 2pcs")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("50.00")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "fa fa-cart-arrow-down" })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("002")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Colgate")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Herbal 100ml")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("120.00")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "fa fa-cart-arrow-down" })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("003")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Yoghurt")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Delamere 500ml")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("110.00")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "fa fa-cart-arrow-down" })
-                    ])
-                  ])
-                ])
-              ])
+              _c("td", [_vm._v("120.00")])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("th", { attrs: { scope: "row" } }, [_vm._v("003")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Yoghurt")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Delamere 500ml")]),
+              _vm._v(" "),
+              _c("td", [
+                _c("input", {
+                  staticClass: "pos_qty",
+                  attrs: { type: "number" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("td", [_vm._v("110.00")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tfoot", [
+            _c("tr", [
+              _c("th", { attrs: { scope: "col", colspan: "4" } }, [
+                _vm._v("Total")
+              ]),
+              _vm._v(" "),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("600.00")])
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("h1", { staticStyle: { "text-align": "center" } }, [
-            _c("i", { staticClass: "fa fa-shopping-basket" })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "table-responsive-md mt-2" }, [
-            _c("table", { staticClass: "table" }, [
-              _c("caption", [_vm._v("Cart Items")]),
-              _vm._v(" "),
-              _c("thead", [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Code")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Item")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [
-                    _vm._v("Description")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Qty")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Price")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("001")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Tissue paper")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Wema 2pcs")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "pos_qty",
-                      attrs: { type: "number" }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("50.00")])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("002")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Colgate")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Herbal 100ml")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "pos_qty",
-                      attrs: { type: "number" }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("120.00")])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("003")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Yoghurt")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Delamere 500ml")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "pos_qty",
-                      attrs: { type: "number" }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("110.00")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tfoot", [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "col", colspan: "4" } }, [
-                    _vm._v("Total")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("600.00")])
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-md-12",
-              staticStyle: { "text-align": "center" }
-            },
-            [
-              _c("button", { staticClass: "btn btn-lg btn-warning" }, [
-                _vm._v("\n                    Check Out\n                ")
-              ])
-            ]
-          )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-12", staticStyle: { "text-align": "center" } },
+        [
+          _c("button", { staticClass: "btn btn-lg btn-warning" }, [
+            _vm._v("\n                    Check Out\n                ")
+          ])
+        ]
+      )
     ])
   }
 ]

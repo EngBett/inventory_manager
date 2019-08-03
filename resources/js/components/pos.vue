@@ -6,7 +6,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-lg">Search</span>
                     </div>
-                    <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                    <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" v-model.trim="search" @keyup="fetchData">
                 </div>
                 <div class="table-responsive-md mt-2">
                     <table class="table">
@@ -21,33 +21,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">001</th>
-                            <td>Tissue paper</td>
-                            <td>Wema 2pcs</td>
-                            <td>50.00</td>
-                            <td>
-                                <a href="">
-                                    <i class="fa fa-cart-arrow-down"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">002</th>
-                            <td>Colgate</td>
-                            <td>Herbal 100ml</td>
-                            <td>120.00</td>
-                            <td>
-                                <a href="">
-                                    <i class="fa fa-cart-arrow-down"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">003</th>
-                            <td>Yoghurt</td>
-                            <td>Delamere 500ml</td>
-                            <td>110.00</td>
+                        <tr v-for="item in inventory" :key="item.id">
+                            <th scope="row">{{item.item_code}}</th>
+                            <td>{{item.item_name}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.sell_price}}.00</td>
                             <td>
                                 <a href="">
                                     <i class="fa fa-cart-arrow-down"></i>
@@ -127,12 +105,26 @@
         },
         data(){
             return{
-                msgtest:"Hello test msg"
+                search:null,
+                inventory:[],
             }
         },
         methods:{
             fetchData(){
+                let inv = [];
+                axios.post('/item-search', {
+                    payload : this.search
+                })
+                    .then(function (res) {
+                        for (let i = 0; i < res.data.items.length; i++) {
+                            inv.push(res.data.items[i]);
+                        }
 
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                this.inventory=inv;
             }
         }
     }
